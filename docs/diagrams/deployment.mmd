@@ -1,0 +1,22 @@
+graph TB
+    subgraph line["Цех: Лінія №1"]
+        camera["IP-камера"]
+        sensors["Вібро- та швидкісні сенсори"]
+        edgepc["Межовий промисловий ПК<br/>(GPU/NPU інференс)"]
+    end
+
+    subgraph serverroom["Серверна заводу"]
+        server["Сервер додатків<br/>(MQTT-брокер, БД, звітність)"]
+    end
+
+    subgraph cloudenv["Хмара"]
+        cloudstore["Об'єктне сховище (архів)"]
+    end
+
+    client["Клієнт (браузер) — АРМ оператора / технолога"]
+
+    camera --> edgepc
+    sensors --> edgepc
+    edgepc -->|"MQTT, TLS"| server
+    server -->|"HTTPS, синхронізація > 30 днів"| cloudstore
+    server -->|"HTTPS, дашборд"| client

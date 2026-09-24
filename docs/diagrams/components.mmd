@@ -1,0 +1,31 @@
+graph TB
+    subgraph edge["Межовий вузол (Edge)"]
+        cam["Модуль захоплення відео"]
+        vib["Модуль вібро-/швидкісних сенсорів"]
+        infer["Модуль інференсу<br/>виявлення дефектів"]
+        buffer["Локальний буфер подій"]
+        alert["Модуль сповіщення оператора"]
+    end
+
+    subgraph server["Центральний сервер"]
+        broker["MQTT-брокер"]
+        agg["Сервіс агрегації та звітності"]
+        db["База даних подій"]
+        dashboard["Веб-дашборд"]
+        retrain["Сервіс дообучення моделі"]
+    end
+
+    store["Гаряче / холодне сховище зображень"]
+
+    cam --> infer
+    vib --> infer
+    infer --> alert
+    infer --> buffer
+    alert --> broker
+    buffer --> broker
+    broker --> agg
+    agg --> db
+    agg --> store
+    db --> dashboard
+    db --> retrain
+    retrain -.->|"оновлена модель"| infer
