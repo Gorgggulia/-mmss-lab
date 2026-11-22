@@ -1,0 +1,8 @@
+.venv/
+data/
+stream/hls/**/*.ts
+stream/dash/*.m4s
+.venv/
+data/
+stream/hls/**/*.ts
+stream/dash/*.m4s
